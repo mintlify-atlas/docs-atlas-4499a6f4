@@ -17,12 +17,13 @@ Raffi supports several command-line flags to control its behavior. All flags are
 
 ## Configuration
 
-<ParamField path="--configfile" type="string" default="~/.config/raffi/raffi.yaml">
+<ParamField path="-c, --configfile" type="string" default="~/.config/raffi/raffi.yaml">
   Path to the YAML configuration file.
   
   Supports tilde expansion (`~/`) and environment variable expansion (`${VAR}`).
   
   ```bash
+  raffi -c ~/custom/config.yaml
   raffi --configfile ~/custom/config.yaml
   ```
 </ParamField>
