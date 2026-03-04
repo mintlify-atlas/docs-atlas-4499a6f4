@@ -1,0 +1,220 @@
+---
+title: Calculator
+description: Built-in mathematical expression evaluator
+icon: calculator
+---
+
+The native interface includes a built-in calculator that evaluates mathematical expressions as you type.
+
+<Note>
+The calculator is only available in **native mode**. It is not available when using Fuzzel mode.
+</Note>
+
+## Overview
+
+Simply type a mathematical expression in the launcher, and the calculator will automatically detect and evaluate it. Results can be copied to the clipboard using Enter.
+
+## Supported Operations
+
+### Basic Arithmetic
+
+<CodeGroup>
+```text Addition
+5 + 3
+# Result: 8
+```
+
+```text Subtraction
+10 - 4
+# Result: 6
+```
+
+```text Multiplication
+7 * 6
+# Result: 42
+```
+
+```text Division
+20 / 4
+# Result: 5
+```
+
+```text Modulo
+17 % 5
+# Result: 2
+```
+
+```text Exponentiation
+2 ^ 8
+# Result: 256
+```
+</CodeGroup>
+
+### Mathematical Functions
+
+The calculator supports common mathematical functions:
+
+| Function | Description | Example |
+|----------|-------------|--------|
+| `sqrt(x)` | Square root | `sqrt(16)` → 4 |
+| `sin(x)` | Sine (radians) | `sin(0)` → 0 |
+| `cos(x)` | Cosine (radians) | `cos(0)` → 1 |
+| `tan(x)` | Tangent (radians) | `tan(0)` → 0 |
+| `log(x)` | Base-10 logarithm | `log(100)` → 2 |
+| `ln(x)` | Natural logarithm | `ln(2.718)` → ~1 |
+| `exp(x)` | Exponential (e^x) | `exp(1)` → ~2.718 |
+| `abs(x)` | Absolute value | `abs(-5)` → 5 |
+| `floor(x)` | Round down | `floor(3.7)` → 3 |
+| `ceil(x)` | Round up | `ceil(3.2)` → 4 |
+
+### Complex Expressions
+
+You can combine multiple operations and functions:
+
+<CodeGroup>
+```text Nested Functions
+sqrt(16) + abs(-5)
+# Result: 9
+```
+
+```text Order of Operations
+2 + 3 * 4
+# Result: 14 (multiplication first)
+```
+
+```text Parentheses
+(2 + 3) * 4
+# Result: 20
+```
+
+```text Scientific
+exp(ln(10))
+# Result: 10
+```
+</CodeGroup>
+
+## Usage
+
+### Basic Usage
+
+1. Launch Raffi in native mode
+2. Type a mathematical expression
+3. The result appears automatically
+4. Press **Enter** to copy the result to clipboard
+
+<Frame>
+  <img src="https://github.com/user-attachments/assets/eb7069c9-21f7-413d-b455-c2db186591d5" alt="Calculator example" />
+</Frame>
+
+### Keyboard Shortcuts
+
+- **Enter**: Copy result to clipboard
+- **Esc**: Clear input and return to normal mode
+
+## Configuration
+
+The calculator is enabled by default in native mode. To disable it:
+
+```yaml raffi.yaml
+addons:
+  calculator:
+    enabled: false
+```
+
+### Enable Calculator
+
+<Tabs>
+  <Tab title="Enabled (Default)">
+    ```yaml
+    addons:
+      calculator:
+        enabled: true
+    ```
+  </Tab>
+  <Tab title="Disabled">
+    ```yaml
+    addons:
+      calculator:
+        enabled: false
+    ```
+  </Tab>
+</Tabs>
+
+## Requirements
+
+<Note>
+The calculator requires `wl-copy` (from wl-clipboard) to copy results to the clipboard.
+</Note>
+
+Install wl-clipboard on your system:
+
+<CodeGroup>
+```bash Arch Linux
+sudo pacman -S wl-clipboard
+```
+
+```bash Debian/Ubuntu
+sudo apt install wl-clipboard
+```
+
+```bash Fedora
+sudo dnf install wl-clipboard
+```
+</CodeGroup>
+
+## Examples
+
+<AccordionGroup>
+  <Accordion title="Basic Calculations">
+    ```text
+    2 + 2           → 4
+    10 - 3          → 7
+    5 * 4           → 20
+    100 / 4         → 25
+    2 ^ 10          → 1024
+    ```
+  </Accordion>
+
+  <Accordion title="Scientific Functions">
+    ```text
+    sqrt(144)       → 12
+    abs(-42)        → 42
+    floor(3.9)      → 3
+    ceil(2.1)       → 3
+    exp(0)          → 1
+    ln(1)           → 0
+    ```
+  </Accordion>
+
+  <Accordion title="Trigonometry">
+    ```text
+    sin(0)          → 0
+    cos(0)          → 1
+    tan(0)          → 0
+    ```
+    
+    <Note>
+    All trigonometric functions use radians, not degrees.
+    </Note>
+  </Accordion>
+
+  <Accordion title="Complex Expressions">
+    ```text
+    sqrt(16) * 5                    → 20
+    (10 + 5) * 2                    → 30
+    2 ^ 3 + sqrt(9)                 → 11
+    abs(-5) * floor(3.7)            → 15
+    exp(ln(100))                    → 100
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Tips
+
+<Tip>
+You don't need to type a special prefix or keyword. Just start typing a mathematical expression and the calculator will activate automatically.
+</Tip>
+
+<Warning>
+Make sure you have `wl-copy` installed if you want to copy results to the clipboard. Without it, you can still see the results but cannot copy them.
+</Warning>

@@ -1,97 +1,282 @@
 ---
-title: "Introduction"
-description: "Welcome to the new home for your documentation"
+title: Raffi Documentation
+mode: custom
 ---
 
-## Setting up
+<div className="relative overflow-hidden bg-gradient-to-br from-[#352a37] via-[#5c3e88] to-[#352a37] dark:from-[#0f1117] dark:via-[#1a1d27] dark:to-[#0f1117] py-20">
+  <div className="max-w-6xl mx-auto px-6 sm:px-8">
+    <div className="lg:grid lg:grid-cols-12 lg:gap-8 items-center">
+      <div className="lg:col-span-7">
+        <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white dark:text-gray-100 mb-6">
+          YAML-powered application launcher for Wayland
+        </h1>
+        <p className="text-base sm:text-lg text-gray-200 dark:text-gray-400 max-w-2xl mb-8">
+          Raffi is a flexible application launcher that integrates with fuzzel or runs with its own native GUI. Configure commands, scripts, and workflows with a simple YAML file.
+        </p>
+        <div className="flex flex-wrap gap-3">
+          <a 
+            href="/quickstart" 
+            className="inline-flex items-center px-6 py-3 rounded-lg bg-[#848c8c] hover:bg-[#6a7373] text-white font-semibold transition-colors no-underline"
+          >
+            Get started
+            <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+          <a 
+            href="/installation" 
+            className="inline-flex items-center px-6 py-3 rounded-lg border border-white/30 bg-white/10 hover:bg-white/20 text-white font-semibold transition-colors no-underline"
+          >
+            Installation
+          </a>
+          <a 
+            href="https://github.com/chmouel/raffi" 
+            className="inline-flex items-center px-6 py-3 rounded-lg border border-white/30 bg-white/10 hover:bg-white/20 text-white font-semibold transition-colors no-underline"
+            target="_blank"
+          >
+            <svg className="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 24 24">
+              <path fillRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clipRule="evenodd" />
+            </svg>
+            GitHub
+          </a>
+        </div>
+      </div>
+      <div className="hidden lg:block lg:col-span-5 mt-12 lg:mt-0">
+        <div className="relative">
+          <div className="absolute inset-0 bg-gradient-to-r from-[#848c8c] to-[#5c3e88] rounded-2xl opacity-20 blur-2xl"></div>
+          <div className="relative bg-[#1a1d27] dark:bg-[#242838] border border-[#27272a] dark:border-[#27272a] rounded-2xl p-6 shadow-2xl">
+            <pre className="text-sm text-gray-300"><code>{`firefox:
+  binary: firefox
+  args: [--marionette]
+  icon: firefox
+  description: Firefox browser
 
-Get your documentation site up and running in minutes.
+calculator:
+  enabled: true
+  
+file_browser:
+  enabled: true
+  show_hidden: false`}</code></pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-<Card
-  title="Start here"
-  icon="rocket"
-  href="/quickstart"
-  horizontal
->
-  Follow our three step quickstart guide.
-</Card>
+<div className="mt-16 mb-16 max-w-5xl mx-auto px-6">
+  <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white mb-3">
+    Quick start
+  </h2>
+  <p className="text-base text-gray-600 dark:text-gray-400 mb-8">
+    Get Raffi up and running in minutes
+  </p>
+  
+  <Steps>
+    <Step title="Install Raffi">
+      Install via your preferred package manager:
+      
+      ```bash Cargo
+      cargo install raffi
+      ```
+      
+      ```bash Arch Linux (AUR)
+      yay -S raffi-bin
+      ```
+      
+      ```bash Homebrew
+      brew tap chmouel/raffi https://github.com/chmouel/raffi
+      brew install raffi
+      ```
+      
+      ```bash NixOS
+      nix-shell -p raffi
+      ```
+    </Step>
+    
+    <Step title="Create configuration file">
+      Create `~/.config/raffi/raffi.yaml` with your first launcher entry:
+      
+      ```yaml
+      firefox:
+        binary: firefox
+        icon: firefox
+        description: Firefox browser
+      
+      terminal:
+        binary: kitty
+        icon: kitty
+        description: Terminal emulator
+      ```
+    </Step>
+    
+    <Step title="Launch Raffi">
+      Run Raffi to see your configured applications:
+      
+      ```bash
+      raffi
+      ```
+      
+      <Accordion title="Example output">
+        The launcher will display your configured entries with icons. Select an entry to launch it.
+        
+        For native UI mode:
+        ```bash
+        raffi -u native
+        ```
+      </Accordion>
+    </Step>
+    
+    <Step title="Integrate with your window manager">
+      Add a keybinding to launch Raffi from your window manager. For Sway:
+      
+      ```config
+      set $menu raffi -p
+      set $super Mod4
+      bindsym $super+Space exec $menu | xargs swaymsg exec --
+      ```
+    </Step>
+  </Steps>
+</div>
 
-## Make it yours
+<div className="mt-16 mb-16 max-w-5xl mx-auto px-6">
+  <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white mb-3">
+    Explore features
+  </h2>
+  <p className="text-base text-gray-600 dark:text-gray-400 mb-8">
+    Discover what makes Raffi powerful and flexible
+  </p>
+  
+  <CardGroup cols={3}>
+    <Card title="Dual UI modes" icon="desktop" href="/features/ui-modes">
+      Use fuzzel integration or the native iced-based GUI with themes and fuzzy search
+    </Card>
+    <Card title="Calculator" icon="calculator" href="/features/calculator">
+      Built-in calculator with support for mathematical functions like sqrt, sin, cos, and more
+    </Card>
+    <Card title="Currency converter" icon="dollar-sign" href="/features/currency-converter">
+      Real-time currency conversion with cached exchange rates from Frankfurter API
+    </Card>
+    <Card title="File browser" icon="folder-open" href="/features/file-browser">
+      Navigate your filesystem with fuzzy filtering and instant file opening
+    </Card>
+    <Card title="Script filters" icon="terminal" href="/features/script-filters">
+      Dynamic results from external commands using Alfred JSON format
+    </Card>
+    <Card title="Web search" icon="search" href="/features/web-search">
+      Quick web searches with custom keywords for Google, GitHub, and more
+    </Card>
+    <Card title="Text snippets" icon="note-sticky" href="/features/text-snippets">
+      Reusable text snippets from inline, file, command, or directory sources
+    </Card>
+    <Card title="Themes" icon="palette" href="/features/themes">
+      Dark and light themes with custom color overrides for accent and background
+    </Card>
+  </CardGroup>
+</div>
 
-Design a docs site that looks great and empowers your users.
+<div className="mt-16 mb-16 max-w-5xl mx-auto px-6">
+  <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white mb-3">
+    Configure your launcher
+  </h2>
+  <p className="text-base text-gray-600 dark:text-gray-400 mb-8">
+    Customize Raffi to match your workflow
+  </p>
+  
+  <CardGroup cols={2}>
+    <Card title="General settings" icon="gear" href="/configuration/general-settings">
+      Set UI type, theme, font size, window dimensions, and default script shell
+    </Card>
+    <Card title="Launcher entries" icon="list" href="/configuration/entries">
+      Define applications with binaries, arguments, icons, and descriptions
+    </Card>
+    <Card title="Scripts" icon="code" href="/configuration/scripts">
+      Run inline bash or Python scripts with custom interpreters
+    </Card>
+    <Card title="Conditional display" icon="filter" href="/configuration/conditions">
+      Show or hide entries based on environment variables or binary existence
+    </Card>
+    <Card title="Icons" icon="image" href="/configuration/icons">
+      Automatic icon discovery with caching and path expansion
+    </Card>
+    <Card title="Addons" icon="puzzle-piece" href="/reference/addon-configuration">
+      Configure calculator, currency, file browser, and more
+    </Card>
+  </CardGroup>
+</div>
 
-<Columns cols={2}>
-  <Card
-    title="Edit locally"
-    icon="pen-to-square"
-    href="/development"
-  >
-    Edit your docs locally and preview them in real time.
-  </Card>
-  <Card
-    title="Customize your site"
-    icon="palette"
-    href="/essentials/settings"
-  >
-    Customize the design and colors of your site to match your brand.
-  </Card>
-    <Card
-    title="Set up navigation"
-    icon="map"
-    href="/essentials/navigation"
-  >
-    Organize your docs to help users find what they need and succeed with your product.
-  </Card>
-  <Card
-    title="API documentation"
-    icon="terminal"
-    href="/api-reference/introduction"
-  >
-    Auto-generate API documentation from OpenAPI specifications.
-  </Card>
-</Columns>
+<div className="mt-16 mb-16 max-w-5xl mx-auto px-6">
+  <h2 className="text-2xl sm:text-3xl font-semibold text-gray-900 dark:text-white mb-3">
+    Window manager integration
+  </h2>
+  <p className="text-base text-gray-600 dark:text-gray-400 mb-8">
+    Integrate Raffi with popular Wayland compositors
+  </p>
+  
+  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+    <a href="/integration/sway" className="group block rounded-2xl border border-gray-200 dark:border-[#27272a] hover:border-[#848c8c] dark:hover:border-[#848c8c] overflow-hidden transition-colors no-underline">
+      <div className="p-6">
+        <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-2">Sway</h3>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+          Configure Raffi keybindings and integration with Sway window manager
+        </p>
+        <div className="flex items-center text-sm text-[#848c8c] group-hover:text-[#6a7373]">
+          <span>Learn more</span>
+          <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
+      </div>
+    </a>
+    
+    <a href="/integration/hyprland" className="group block rounded-2xl border border-gray-200 dark:border-[#27272a] hover:border-[#848c8c] dark:hover:border-[#848c8c] overflow-hidden transition-colors no-underline">
+      <div className="p-6">
+        <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-2">Hyprland</h3>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+          Set up Raffi with Hyprland compositor keybindings
+        </p>
+        <div className="flex items-center text-sm text-[#848c8c] group-hover:text-[#6a7373]">
+          <span>Learn more</span>
+          <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
+      </div>
+    </a>
+    
+    <a href="/integration/fuzzel" className="group block rounded-2xl border border-gray-200 dark:border-[#27272a] hover:border-[#848c8c] dark:hover:border-[#848c8c] overflow-hidden transition-colors no-underline">
+      <div className="p-6">
+        <h3 className="text-base font-semibold text-gray-900 dark:text-gray-100 mb-2">Fuzzel</h3>
+        <p className="text-sm text-gray-600 dark:text-gray-400 mb-3">
+          Customize fuzzel appearance and configuration for Raffi
+        </p>
+        <div className="flex items-center text-sm text-[#848c8c] group-hover:text-[#6a7373]">
+          <span>Learn more</span>
+          <svg className="ml-1 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+          </svg>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
 
-## Create beautiful pages
-
-Everything you need to create world-class documentation.
-
-<Columns cols={2}>
-  <Card
-    title="Write with MDX"
-    icon="pen-fancy"
-    href="/essentials/markdown"
-  >
-    Use MDX to style your docs pages.
-  </Card>
-  <Card
-    title="Code samples"
-    icon="code"
-    href="/essentials/code"
-  >
-    Add sample code to demonstrate how to use your product.
-  </Card>
-  <Card
-    title="Images"
-    icon="image"
-    href="/essentials/images"
-  >
-    Display images and other media.
-  </Card>
-  <Card
-    title="Reusable snippets"
-    icon="recycle"
-    href="/essentials/reusable-snippets"
-  >
-    Write once and reuse across your docs.
-  </Card>
-</Columns>
-
-## Need inspiration?
-
-<Card
-  title="See complete examples"
-  icon="stars"
-  href="https://mintlify.com/customers"
->
-  Browse our showcase of exceptional documentation sites.
-</Card>
+<div className="mt-20 mb-16 max-w-5xl mx-auto px-6">
+  <div className="rounded-2xl border border-gray-200 dark:border-[#27272a] bg-gray-50 dark:bg-[#1a1d27] p-8 sm:p-12 text-center">
+    <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 dark:text-white mb-4">
+      Ready to get started?
+    </h2>
+    <p className="text-base text-gray-600 dark:text-gray-400 max-w-2xl mx-auto mb-8">
+      Install Raffi and configure your first launcher entries in minutes. Check out the quickstart guide to launch your applications with style.
+    </p>
+    <a 
+      href="/quickstart" 
+      className="inline-flex items-center px-6 py-3 rounded-lg bg-[#848c8c] hover:bg-[#6a7373] text-white font-semibold transition-colors no-underline"
+    >
+      Start the quickstart
+      <svg className="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+      </svg>
+    </a>
+  </div>
+</div>

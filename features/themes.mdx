@@ -1,0 +1,367 @@
+---
+title: Themes
+description: Dark and light themes with custom color palettes
+icon: palette
+---
+
+The native interface supports dark and light themes with full color customization.
+
+<Note>
+Themes are only available in **native mode**. Fuzzel mode uses system Fuzzel configuration.
+</Note>
+
+## Built-in Themes
+
+Raffi comes with two built-in themes:
+
+<CardGroup cols={2}>
+  <Card title="Dark Theme" icon="moon">
+    Dracula-inspired dark palette (default)
+  </Card>
+  <Card title="Light Theme" icon="sun">
+    Rose Pine Dawn light palette
+  </Card>
+</CardGroup>
+
+## Selecting a Theme
+
+### Command Line
+
+<CodeGroup>
+```bash Dark Theme (Default)
+raffi -u native -t dark
+```
+
+```bash Light Theme
+raffi -u native -t light
+```
+</CodeGroup>
+
+### Configuration File
+
+```yaml raffi.yaml
+general:
+  theme: dark  # or "light"
+```
+
+<Tabs>
+  <Tab title="Dark Theme">
+    ```yaml
+    general:
+      ui_type: native
+      theme: dark
+    ```
+    
+    Dracula-inspired dark palette with high contrast
+  </Tab>
+  
+  <Tab title="Light Theme">
+    ```yaml
+    general:
+      ui_type: native
+      theme: light
+    ```
+    
+    <Frame>
+      <img src="https://github.com/user-attachments/assets/9c6549dc-be51-422d-9b82-5dbbb89779b6" alt="Light theme example" />
+    </Frame>
+  </Tab>
+</Tabs>
+
+## Custom Colors
+
+Individual theme colors can be customized under `theme_colors`. Only the colors you specify are overridden; the rest come from the base theme.
+
+### Available Color Keys
+
+<ParamField path="bg_base" type="string">
+  Main background color
+</ParamField>
+
+<ParamField path="bg_input" type="string">
+  Search input background color
+</ParamField>
+
+<ParamField path="accent" type="string">
+  Primary accent color (highlights, active items)
+</ParamField>
+
+<ParamField path="accent_hover" type="string">
+  Accent color on hover
+</ParamField>
+
+<ParamField path="text_main" type="string">
+  Primary text color
+</ParamField>
+
+<ParamField path="text_muted" type="string">
+  Secondary/muted text color
+</ParamField>
+
+<ParamField path="selection_bg" type="string">
+  Selected item background
+</ParamField>
+
+<ParamField path="border" type="string">
+  Border and separator colors
+</ParamField>
+
+### Color Format
+
+Colors accept hex color strings in these formats:
+- `#RGB` - Short form (e.g., `#f0f`)
+- `#RRGGBB` - Standard form (e.g., `#ff00ff`)
+- `#RRGGBBAA` - With alpha channel (e.g., `#ff00ff80`)
+
+## Custom Color Examples
+
+### Catppuccin Mocha
+
+```yaml raffi.yaml
+general:
+  theme: dark
+  theme_colors:
+    bg_base: "#1e1e2e"
+    bg_input: "#313244"
+    accent: "#cba6f7"
+    accent_hover: "#89b4fa"
+    text_main: "#cdd6f4"
+    text_muted: "#6c7086"
+    selection_bg: "#45475a"
+    border: "#585b70"
+```
+
+### Nord
+
+```yaml raffi.yaml
+general:
+  theme: dark
+  theme_colors:
+    bg_base: "#2e3440"
+    bg_input: "#3b4252"
+    accent: "#88c0d0"
+    accent_hover: "#81a1c1"
+    text_main: "#eceff4"
+    text_muted: "#d8dee9"
+    selection_bg: "#434c5e"
+    border: "#4c566a"
+```
+
+### Gruvbox Dark
+
+```yaml raffi.yaml
+general:
+  theme: dark
+  theme_colors:
+    bg_base: "#282828"
+    bg_input: "#3c3836"
+    accent: "#d79921"
+    accent_hover: "#fabd2f"
+    text_main: "#ebdbb2"
+    text_muted: "#a89984"
+    selection_bg: "#504945"
+    border: "#665c54"
+```
+
+### Solarized Light
+
+```yaml raffi.yaml
+general:
+  theme: light
+  theme_colors:
+    bg_base: "#fdf6e3"
+    bg_input: "#eee8d5"
+    accent: "#268bd2"
+    accent_hover: "#2aa198"
+    text_main: "#657b83"
+    text_muted: "#93a1a1"
+    selection_bg: "#eee8d5"
+    border: "#93a1a1"
+```
+
+### Tokyo Night
+
+```yaml raffi.yaml
+general:
+  theme: dark
+  theme_colors:
+    bg_base: "#1a1b26"
+    bg_input: "#24283b"
+    accent: "#7aa2f7"
+    accent_hover: "#bb9af7"
+    text_main: "#c0caf5"
+    text_muted: "#565f89"
+    selection_bg: "#292e42"
+    border: "#414868"
+```
+
+## Partial Color Override
+
+You can override just a few colors while keeping the rest from the base theme:
+
+```yaml raffi.yaml
+general:
+  theme: dark
+  theme_colors:
+    accent: "#ff6b9d"  # Custom pink accent
+    # All other colors use dark theme defaults
+```
+
+## Font Customization
+
+Combine theme customization with font settings:
+
+```yaml raffi.yaml
+general:
+  ui_type: native
+  theme: dark
+  theme_colors:
+    accent: "#cba6f7"
+  font_family: "Inter"
+  font_size: 20
+  window_width: 900
+  window_height: 500
+```
+
+### Font Settings
+
+<ParamField path="font_family" type="string">
+  Font family name (e.g., "Inter", "Fira Sans"). System default sans-serif when omitted.
+</ParamField>
+
+<ParamField path="font_size" type="number" default="20">
+  Base font size in pixels. Other UI sizes scale proportionally:
+  - Input text: 1.2× base
+  - Subtitles: 0.7× base
+  - Hints: 0.6× base
+</ParamField>
+
+<ParamField path="window_width" type="number" default="800">
+  Window width in pixels
+</ParamField>
+
+<ParamField path="window_height" type="number" default="600">
+  Window height in pixels
+</ParamField>
+
+<ParamField path="padding" type="number">
+  Outer window padding in pixels. Scales with font_size if not set.
+</ParamField>
+
+## Complete Theme Configuration
+
+<CodeGroup>
+```yaml Dark + Catppuccin
+general:
+  ui_type: native
+  theme: dark
+  theme_colors:
+    bg_base: "#1e1e2e"
+    bg_input: "#313244"
+    accent: "#cba6f7"
+    accent_hover: "#89b4fa"
+    text_main: "#cdd6f4"
+    text_muted: "#6c7086"
+    selection_bg: "#45475a"
+    border: "#585b70"
+  font_family: "Inter"
+  font_size: 20
+  window_width: 900
+  window_height: 500
+```
+
+```yaml Light + Custom
+general:
+  ui_type: native
+  theme: light
+  theme_colors:
+    accent: "#0066cc"
+    accent_hover: "#0052a3"
+  font_family: "Fira Sans"
+  font_size: 18
+  window_width: 800
+  window_height: 600
+```
+</CodeGroup>
+
+## Theme Previews
+
+<AccordionGroup>
+  <Accordion title="Default Dark Theme">
+    Dracula-inspired palette with:
+    - Deep purple background
+    - High contrast text
+    - Purple/pink accents
+    - Excellent readability
+  </Accordion>
+
+  <Accordion title="Default Light Theme">
+    Rose Pine Dawn palette with:
+    - Soft, warm background
+    - Comfortable contrast
+    - Muted accents
+    - Eye-friendly for bright environments
+  </Accordion>
+
+  <Accordion title="Custom Themes">
+    Create your own by:
+    1. Starting with a base theme (dark or light)
+    2. Overriding specific colors
+    3. Testing with `raffi -u native -t [theme]`
+    4. Adjusting until satisfied
+  </Accordion>
+</AccordionGroup>
+
+## Tips
+
+<Tip>
+Start with a base theme and override only the colors you want to change
+</Tip>
+
+<Tip>
+Use consistent color schemes across your system for a cohesive experience
+</Tip>
+
+<Tip>
+Test your custom colors in both bright and dim lighting conditions
+</Tip>
+
+<Tip>
+Consider accessibility: maintain sufficient contrast between text and background
+</Tip>
+
+## Color Palette Generators
+
+Generate custom palettes using these tools:
+
+- [Catppuccin](https://github.com/catppuccin/catppuccin)
+- [Nord](https://www.nordtheme.com/)
+- [Gruvbox](https://github.com/morhetz/gruvbox)
+- [Tokyo Night](https://github.com/enkia/tokyo-night-vscode-theme)
+- [Dracula](https://draculatheme.com/)
+- [Rose Pine](https://rosepinetheme.com/)
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Colors not applying">
+    1. Ensure you're using native mode: `ui_type: native`
+    2. Check color format: `#RRGGBB` or `#RGB`
+    3. Verify YAML syntax (proper indentation)
+    4. Restart Raffi after config changes
+  </Accordion>
+
+  <Accordion title="Font not changing">
+    1. Make sure font is installed on your system
+    2. Use exact font name (case-sensitive)
+    3. Try `fc-list` to see available fonts
+    4. Set `font_family: "Font Name"` in quotes
+  </Accordion>
+
+  <Accordion title="Poor contrast">
+    Adjust these color pairs for better readability:
+    - `text_main` vs `bg_base`
+    - `text_main` vs `selection_bg`
+    - `accent` vs `bg_base`
+  </Accordion>
+</AccordionGroup>

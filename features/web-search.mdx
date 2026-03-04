@@ -1,0 +1,392 @@
+---
+title: Web Search
+description: Quick web searches with URL templates and keywords
+icon: search
+---
+
+The native interface supports quick web searches via URL templates. Type a keyword followed by your query to open search results in your default browser.
+
+<Note>
+Web search is only available in **native mode**. It is not available when using Fuzzel mode.
+</Note>
+
+## Overview
+
+Define custom search engines with keywords and URL templates. When you type a keyword and query, Raffi opens your browser with the search results.
+
+## Configuration
+
+Configure web searches in your `raffi.yaml`:
+
+```yaml raffi.yaml
+addons:
+  web_searches:
+    - name: "Google"
+      keyword: "g"
+      url: "https://google.com/search?q={query}"
+      icon: "google"
+    
+    - name: "DuckDuckGo"
+      keyword: "ddg"
+      url: "https://duckduckgo.com/?q={query}"
+      icon: "duckduckgo"
+    
+    - name: "GitHub"
+      keyword: "gh"
+      url: "https://github.com/search?q={query}"
+      icon: "github"
+    
+    - name: "Wikipedia"
+      keyword: "wiki"
+      url: "https://en.wikipedia.org/wiki/Special:Search?search={query}"
+      icon: "wikipedia"
+```
+
+### Configuration Fields
+
+<ParamField path="name" type="string" required>
+  Display name shown in the search row (e.g., "Search Google for...")
+</ParamField>
+
+<ParamField path="keyword" type="string" required>
+  Text that activates the web search (e.g., "g", "ddg")
+</ParamField>
+
+<ParamField path="url" type="string" required>
+  URL template with `{query}` placeholder for search terms
+</ParamField>
+
+<ParamField path="icon" type="string">
+  Icon name from your icon cache to display next to the search row
+</ParamField>
+
+## Usage
+
+Type a keyword followed by your search query:
+
+```text
+g rust traits
+# Opens: https://google.com/search?q=rust%20traits
+
+ddg wayland compositor
+# Opens: https://duckduckgo.com/?q=wayland%20compositor
+
+gh iced-rs
+# Opens: https://github.com/search?q=iced-rs
+
+wiki functional programming
+# Opens: https://en.wikipedia.org/wiki/Special:Search?search=functional%20programming
+```
+
+## How It Works
+
+<Steps>
+  <Step title="Type Keyword">
+    Type the configured keyword (e.g., `g`)
+  </Step>
+  <Step title="Add Query">
+    Type your search query after the keyword
+  </Step>
+  <Step title="See Preview">
+    Raffi displays "Search [Name] for [query]"
+  </Step>
+  <Step title="Execute Search">
+    Press Enter to open browser with search results
+  </Step>
+</Steps>
+
+### URL Encoding
+
+The `{query}` placeholder is automatically percent-encoded for safe URL use:
+
+- Spaces become `%20`
+- Special characters are encoded (e.g., `&` → `%26`)
+- Unreserved characters remain unchanged (A-Z, a-z, 0-9, `-`, `.`, `_`, `~`)
+
+<CodeGroup>
+```text Simple Query
+g hello world
+→ https://google.com/search?q=hello%20world
+```
+
+```text Special Characters
+g rust + traits
+→ https://google.com/search?q=rust%20%2B%20traits
+```
+
+```text Complex Query
+g "exact phrase" -exclude
+→ https://google.com/search?q=%22exact%20phrase%22%20-exclude
+```
+</CodeGroup>
+
+## Pre-configured Search Engines
+
+Common search engines you can add:
+
+<AccordionGroup>
+  <Accordion title="General Search">
+    ```yaml
+    - name: "Google"
+      keyword: "g"
+      url: "https://google.com/search?q={query}"
+      icon: "google"
+    
+    - name: "DuckDuckGo"
+      keyword: "ddg"
+      url: "https://duckduckgo.com/?q={query}"
+      icon: "duckduckgo"
+    
+    - name: "Bing"
+      keyword: "b"
+      url: "https://www.bing.com/search?q={query}"
+      icon: "bing"
+    ```
+  </Accordion>
+
+  <Accordion title="Development">
+    ```yaml
+    - name: "GitHub"
+      keyword: "gh"
+      url: "https://github.com/search?q={query}"
+      icon: "github"
+    
+    - name: "Stack Overflow"
+      keyword: "so"
+      url: "https://stackoverflow.com/search?q={query}"
+      icon: "stackoverflow"
+    
+    - name: "Crates.io"
+      keyword: "crate"
+      url: "https://crates.io/search?q={query}"
+      icon: "rust"
+    
+    - name: "NPM"
+      keyword: "npm"
+      url: "https://www.npmjs.com/search?q={query}"
+      icon: "npm"
+    
+    - name: "Docker Hub"
+      keyword: "docker"
+      url: "https://hub.docker.com/search?q={query}"
+      icon: "docker"
+    ```
+  </Accordion>
+
+  <Accordion title="Reference">
+    ```yaml
+    - name: "Wikipedia"
+      keyword: "wiki"
+      url: "https://en.wikipedia.org/wiki/Special:Search?search={query}"
+      icon: "wikipedia"
+    
+    - name: "MDN"
+      keyword: "mdn"
+      url: "https://developer.mozilla.org/en-US/search?q={query}"
+      icon: "firefox"
+    
+    - name: "Rust Docs"
+      keyword: "rdoc"
+      url: "https://doc.rust-lang.org/std/?search={query}"
+      icon: "rust"
+    ```
+  </Accordion>
+
+  <Accordion title="Media">
+    ```yaml
+    - name: "YouTube"
+      keyword: "yt"
+      url: "https://www.youtube.com/results?search_query={query}"
+      icon: "youtube"
+    
+    - name: "Reddit"
+      keyword: "r"
+      url: "https://www.reddit.com/search?q={query}"
+      icon: "reddit"
+    
+    - name: "Twitter"
+      keyword: "tw"
+      url: "https://twitter.com/search?q={query}"
+      icon: "twitter"
+    ```
+  </Accordion>
+
+  <Accordion title="Shopping">
+    ```yaml
+    - name: "Amazon"
+      keyword: "amz"
+      url: "https://www.amazon.com/s?k={query}"
+      icon: "amazon"
+    
+    - name: "eBay"
+      keyword: "ebay"
+      url: "https://www.ebay.com/sch/i.html?_nkw={query}"
+      icon: "ebay"
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Custom Search Engines
+
+You can add any search engine that accepts a query parameter:
+
+### Finding the URL Template
+
+<Steps>
+  <Step title="Perform a Search">
+    Go to the website and search for "test"
+  </Step>
+  <Step title="Copy URL">
+    Look at the browser address bar:
+    ```
+    https://example.com/search?q=test
+    ```
+  </Step>
+  <Step title="Replace Query">
+    Replace "test" with `{query}`:
+    ```
+    https://example.com/search?q={query}
+    ```
+  </Step>
+  <Step title="Add to Config">
+    ```yaml
+    - name: "Example"
+      keyword: "ex"
+      url: "https://example.com/search?q={query}"
+    ```
+  </Step>
+</Steps>
+
+### Examples
+
+<CodeGroup>
+```yaml Site-Specific Search
+- name: "Search Rust Reddit"
+  keyword: "rr"
+  url: "https://www.reddit.com/r/rust/search?q={query}&restrict_sr=1"
+  icon: "reddit"
+```
+
+```yaml Google Images
+- name: "Google Images"
+  keyword: "img"
+  url: "https://www.google.com/search?q={query}&tbm=isch"
+  icon: "google"
+```
+
+```yaml Language-Specific
+- name: "Python Docs"
+  keyword: "pydoc"
+  url: "https://docs.python.org/3/search.html?q={query}"
+  icon: "python"
+```
+</CodeGroup>
+
+## Use Cases
+
+<CardGroup cols={2}>
+  <Card title="Quick Research" icon="magnifying-glass">
+    ```text
+    wiki quantum computing
+    ```
+  </Card>
+  
+  <Card title="Code Search" icon="code">
+    ```text
+    gh iced-rs
+    so rust async error
+    ```
+  </Card>
+  
+  <Card title="Package Lookup" icon="box">
+    ```text
+    crate serde
+    npm express
+    ```
+  </Card>
+  
+  <Card title="Documentation" icon="book">
+    ```text
+    mdn fetch api
+    rdoc hashmap
+    ```
+  </Card>
+</CardGroup>
+
+## Keyboard Shortcuts
+
+- **Enter**: Open search in default browser
+- **Esc**: Cancel and return to normal mode
+
+## Requirements
+
+<Warning>
+Requires `xdg-open` to open URLs in your default browser (standard on most Linux distributions)
+</Warning>
+
+## Tips
+
+<Tip>
+Use short, memorable keywords like `g` for Google, `gh` for GitHub, etc.
+</Tip>
+
+<Tip>
+Add site-specific searches for frequently visited websites (e.g., your company's internal docs)
+</Tip>
+
+<Tip>
+You can override the query parameter name if a site uses something other than `q`: `url: "https://example.com/find?search={query}"`
+</Tip>
+
+<Tip>
+Common search engines are often pre-configured in example configs. Check the Raffi repository for ready-to-use templates.
+</Tip>
+
+## Example Configuration
+
+Here's a complete example with popular search engines:
+
+```yaml raffi.yaml
+addons:
+  web_searches:
+    # General
+    - name: "Google"
+      keyword: "g"
+      url: "https://google.com/search?q={query}"
+      icon: "google"
+    
+    - name: "DuckDuckGo"
+      keyword: "ddg"
+      url: "https://duckduckgo.com/?q={query}"
+    
+    # Development
+    - name: "GitHub"
+      keyword: "gh"
+      url: "https://github.com/search?q={query}"
+      icon: "github"
+    
+    - name: "Stack Overflow"
+      keyword: "so"
+      url: "https://stackoverflow.com/search?q={query}"
+    
+    - name: "Crates.io"
+      keyword: "crate"
+      url: "https://crates.io/search?q={query}"
+      icon: "rust"
+    
+    # Reference
+    - name: "Wikipedia"
+      keyword: "wiki"
+      url: "https://en.wikipedia.org/wiki/Special:Search?search={query}"
+      icon: "wikipedia"
+    
+    - name: "MDN"
+      keyword: "mdn"
+      url: "https://developer.mozilla.org/en-US/search?q={query}"
+    
+    # Media
+    - name: "YouTube"
+      keyword: "yt"
+      url: "https://www.youtube.com/results?search_query={query}"
+      icon: "youtube"
+```

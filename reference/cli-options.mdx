@@ -1,0 +1,166 @@
+---
+title: CLI Options
+description: Command-line flags and options for Raffi
+---
+
+Raffi supports several command-line flags to control its behavior. All flags are optional and override settings from the configuration file.
+
+## Global Flags
+
+<ParamField path="--help" type="boolean" default="false">
+  Print help message and exit.
+</ParamField>
+
+<ParamField path="--version" type="boolean" default="false">
+  Print version information and exit.
+</ParamField>
+
+## Configuration
+
+<ParamField path="--configfile" type="string" default="~/.config/raffi/raffi.yaml">
+  Path to the YAML configuration file.
+  
+  Supports tilde expansion (`~/`) and environment variable expansion (`${VAR}`).
+  
+  ```bash
+  raffi --configfile ~/custom/config.yaml
+  ```
+</ParamField>
+
+## UI Options
+
+<ParamField path="-u, --ui-type" type="string" default="fuzzel">
+  Select the user interface backend.
+  
+  Valid values:
+  - `fuzzel` - Uses the external Fuzzel launcher (requires Fuzzel to be installed)
+  - `native` - Uses the built-in iced-based graphical interface (requires build with `wayland` feature)
+  
+  ```bash
+  raffi -u native
+  ```
+</ParamField>
+
+<ParamField path="-I, --no-icons" type="boolean" default="false">
+  Disable icon loading for faster startup.
+  
+  When enabled, no icons will be displayed in the launcher interface. This can significantly speed up startup time, especially on first launch.
+  
+  ```bash
+  raffi -I
+  ```
+</ParamField>
+
+<ParamField path="-i, --initial-query" type="string">
+  Pre-fill the search field with an initial query.
+  
+  Only works in native UI mode. Useful for launching Raffi with a specific search term already entered.
+  
+  ```bash
+  raffi -u native -i firefox
+  ```
+</ParamField>
+
+<ParamField path="-t, --theme" type="string" default="dark">
+  Select the color theme for the native UI.
+  
+  Valid values:
+  - `dark` - Dracula-inspired dark theme (default)
+  - `light` - Rose Pine Dawn light theme
+  
+  Only affects native UI mode.
+  
+  ```bash
+  raffi -u native -t light
+  ```
+</ParamField>
+
+## Execution Options
+
+<ParamField path="-p, --print-only" type="boolean" default="false">
+  Print the command to stdout instead of executing it.
+  
+  Useful for debugging or integrating with window managers that execute commands separately.
+  
+  ```bash
+  raffi -p
+  # Output: firefox --marionette
+  ```
+  
+  Example with Sway:
+  ```bash
+  raffi -p | xargs swaymsg exec --
+  ```
+</ParamField>
+
+<ParamField path="-P, --default-script-shell" type="string" default="bash">
+  Set the default shell interpreter for script entries.
+  
+  Used when a configuration entry has a `script` field but no explicit `binary` field. Common values include `bash`, `zsh`, `sh`, `python3`, etc.
+  
+  ```bash
+  raffi --default-script-shell zsh
+  ```
+</ParamField>
+
+## Cache Management
+
+<ParamField path="-r, --refresh-cache" type="boolean" default="false">
+  Refresh the cached icon paths.
+  
+  Raffi caches icon locations from system directories to speed up subsequent launches. Use this flag to force regeneration of the cache, for example after installing new icon themes.
+  
+  ```bash
+  raffi -r
+  ```
+  
+  Cache location: `$XDG_CACHE_HOME/raffi/icon.cache` (defaults to `~/.cache/raffi/icon.cache`)
+</ParamField>
+
+## Examples
+
+### Basic Usage
+
+Launch with default settings:
+```bash
+raffi
+```
+
+### Custom Configuration
+
+Use a custom config file:
+```bash
+raffi --configfile ~/.config/work/raffi.yaml
+```
+
+### Native UI with Light Theme
+
+Launch the native UI with light theme and no icons:
+```bash
+raffi -u native -t light -I
+```
+
+### Print-Only Mode
+
+Print the selected command without executing:
+```bash
+raffi -p
+```
+
+### Pre-filled Search
+
+Launch with an initial search query:
+```bash
+raffi -u native -i "screenshot"
+```
+
+### Refresh Icons and Use Custom Shell
+
+Refresh icon cache and use zsh for scripts:
+```bash
+raffi -r --default-script-shell zsh
+```
+
+## Precedence
+
+Command-line flags always take precedence over settings in the configuration file's `general` section. This allows you to override persistent defaults on a per-launch basis.

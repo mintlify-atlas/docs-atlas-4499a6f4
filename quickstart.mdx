@@ -1,80 +1,445 @@
 ---
-title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+title: Quick Start
+description: Get up and running with Raffi in minutes
 ---
 
-## Get started in three steps
+This guide will help you configure and launch your first application with Raffi.
 
-Get your documentation site running locally and make your first customization.
+## Step 1: Create Your Configuration
 
-### Step 1: Set up your local environment
-
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
+<Steps>
+  <Step title="Create the config directory">
+    Raffi looks for its configuration at `~/.config/raffi/raffi.yaml`. Create the directory:
     
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
+    ```bash
+    mkdir -p ~/.config/raffi
+    ```
+  </Step>
+  
+  <Step title="Create a basic configuration file">
+    Create `~/.config/raffi/raffi.yaml` with a simple entry:
     
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
-
-### Step 2: Deploy your changes
-
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
+    ```yaml
+    firefox:
+      binary: firefox
+      icon: firefox
+      description: Firefox Web Browser
     
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
+    terminal:
+      binary: kitty
+      icon: kitty
+      description: Kitty Terminal
+    
+    file_manager:
+      binary: nautilus
+      icon: folder
+      description: File Manager
+    ```
+    
+    <Note>
+      Entries are only shown if the binary exists in your PATH. Replace the binary names with applications you have installed.
+    </Note>
+  </Step>
+  
+  <Step title="Test your configuration">
+    Run Raffi in print-only mode to verify the configuration:
+    
+    ```bash
+    raffi -p
+    ```
+    
+    This will display your configured entries without executing them.
+  </Step>
+</Steps>
 
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
+## Step 2: Choose Your Interface
 
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
+Raffi supports two interface modes:
 
-### Step 3: Go live
+<Tabs>
+  <Tab title="Fuzzel Mode (Default)">
+    Fuzzel mode uses the external Fuzzel launcher for a minimal, Wayland-native experience.
+    
+    ### Install Fuzzel
+    
+    First, ensure Fuzzel is installed:
+    
+    <CodeGroup>
+    ```bash Arch Linux
+    sudo pacman -S fuzzel
+    ```
+    
+    ```bash Ubuntu/Debian
+    sudo apt install fuzzel
+    ```
+    
+    ```bash Build from source
+    git clone https://codeberg.org/dnkl/fuzzel.git
+    cd fuzzel
+    meson build
+    ninja -C build
+    sudo ninja -C build install
+    ```
+    </CodeGroup>
+    
+    ### Launch with Fuzzel
+    
+    ```bash
+    raffi
+    ```
+    
+    Or explicitly specify Fuzzel mode:
+    
+    ```bash
+    raffi -u fuzzel
+    ```
+    
+    ### Configure Fuzzel Appearance
+    
+    Customize Fuzzel's look in `~/.config/fuzzel/fuzzel.ini`:
+    
+    ```ini
+    dpi-aware=yes
+    font=RobotoMonoNerdFont-Thin:size=16
+    terminal=kitty
+    width=50
+    layer=overlay
+    exit-on-keyboard-focus-loss=no
+    inner-pad=15
+    
+    [colors]
+    background=282a36ff
+    text=f8f8f2ff
+    match=8be9fdff
+    selection=44475add
+    border=bd93f9ff
+    ```
+  </Tab>
+  
+  <Tab title="Native Mode">
+    Native mode uses Raffi's built-in iced-based GUI with additional features like calculator, file browser, and more.
+    
+    ### Launch Native Interface
+    
+    ```bash
+    raffi -u native
+    ```
+    
+    ### Choose a Theme
+    
+    ```bash
+    # Dark theme (default, Dracula-inspired)
+    raffi -u native -t dark
+    
+    # Light theme (Rose Pine Dawn)
+    raffi -u native -t light
+    ```
+    
+    ### Set as Default
+    
+    To always use native mode, add this to your config:
+    
+    ```yaml
+    general:
+      ui_type: native
+      theme: dark
+      font_size: 20
+      window_width: 800
+      window_height: 600
+    ```
+  </Tab>
+</Tabs>
 
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
+## Step 3: Add Script Support
 
-## Next steps
+Raffi can execute inline scripts with any interpreter:
 
-Now that you have your docs running, explore these key features:
+<CodeGroup>
+```yaml Bash Script
+hello_script:
+  script: |
+    echo "Hello from Bash!"
+    notify-send "Raffi" "Script executed successfully"
+  description: "Hello Script"
+  icon: "script"
+```
 
-<CardGroup cols={2}>
+```yaml Python Script
+check_disk:
+  binary: python3
+  script: |
+    import shutil
+    usage = shutil.disk_usage("/")
+    percent = (usage.used / usage.total) * 100
+    print(f"Disk usage: {percent:.1f}%")
+  description: "Check Disk Usage"
+  icon: "drive-harddisk"
+```
 
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
+```yaml Node.js Script
+node_example:
+  binary: node
+  script: |
+    const os = require('os');
+    console.log(`Hostname: ${os.hostname()}`);
+    console.log(`Platform: ${os.platform()}`);
+  description: "System Info (Node)"
+  icon: "nodejs"
+```
+</CodeGroup>
 
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
+## Step 4: Window Manager Integration
 
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
+Integrate Raffi with your Wayland compositor:
 
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
+<Tabs>
+  <Tab title="Sway">
+    Add to `~/.config/sway/config`:
+    
+    ```config
+    set $menu raffi -p
+    set $super Mod4
+    bindsym $super+Space exec $menu | xargs swaymsg exec --
+    ```
+    
+    Reload Sway config:
+    
+    ```bash
+    swaymsg reload
+    ```
+    
+    Now press `Super+Space` to launch Raffi!
+  </Tab>
+  
+  <Tab title="Hyprland">
+    Add to `~/.config/hypr/hyprland.conf`:
+    
+    ```conf
+    $super = SUPER
+    bind = $super, R, exec, (val=$(raffi -pI); echo $val | grep -q . && hyprctl dispatch exec "$val")
+    ```
+    
+    Reload Hyprland config or restart Hyprland, then press `Super+R` to launch Raffi.
+  </Tab>
+  
+  <Tab title="Other Compositors">
+    For other Wayland compositors, bind a key to execute:
+    
+    ```bash
+    raffi -p | xargs swaymsg exec --
+    ```
+    
+    Or for direct execution:
+    
+    ```bash
+    raffi
+    ```
+  </Tab>
+</Tabs>
 
-</CardGroup>
+## Step 5: Explore Native Mode Features
 
 <Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
+  These features are only available when using the native interface (`-u native`).
 </Note>
+
+### Calculator
+
+Just start typing a mathematical expression:
+
+```
+2 + 2 * 5
+sqrt(144) + log(100)
+sin(90) * 50
+```
+
+Press Enter to copy the result to clipboard.
+
+### Currency Converter
+
+Type `$` followed by an amount and currency:
+
+```
+$100 to eur
+$50 gbp to usd
+$10eur to jpy
+```
+
+<Accordion title="Configure currency converter">
+  ```yaml
+  addons:
+    currency:
+      enabled: true
+      trigger: "$"
+      default_currency: USD
+      currencies: ["USD", "EUR", "GBP", "JPY", "CAD"]
+  ```
+</Accordion>
+
+### File Browser
+
+Navigate your filesystem by typing:
+
+- `/` - Browse root directory
+- `~` - Browse home directory
+- `/home/user/Documents` - Browse specific path
+
+**Keyboard shortcuts:**
+- Enter: Open file/directory
+- Alt+Enter: Copy path to clipboard
+- Tab: Autocomplete
+- Ctrl+H: Toggle hidden files
+
+### Web Searches
+
+Add web searches to your config:
+
+```yaml
+addons:
+  web_searches:
+    - name: "Google"
+      keyword: "g"
+      url: "https://google.com/search?q={query}"
+      icon: "google"
+    
+    - name: "GitHub"
+      keyword: "gh"
+      url: "https://github.com/search?q={query}"
+      icon: "github"
+    
+    - name: "Wikipedia"
+      keyword: "wiki"
+      url: "https://en.wikipedia.org/wiki/{query}"
+      icon: "wikipedia"
+```
+
+Then type:
+
+```
+g wayland protocol
+gh user/repo
+wiki rust programming
+```
+
+## Common Use Cases
+
+<AccordionGroup>
+  <Accordion title="Launch applications with custom arguments">
+    ```yaml
+    firefox_private:
+      binary: firefox
+      args: [--private-window]
+      icon: firefox
+      description: Firefox Private Window
+    
+    code_workspace:
+      binary: code
+      args: [~/projects/myapp]
+      icon: vscode
+      description: Open MyApp in VS Code
+    ```
+  </Accordion>
+  
+  <Accordion title="Conditional entries (show only when available)">
+    ```yaml
+    gnome_tweaks:
+      binary: gnome-tweaks
+      description: GNOME Tweaks
+      icon: gnome-tweak-tool
+      ifenveq: [DESKTOP_SESSION, GNOME]
+    
+    wayland_only_app:
+      binary: my-wayland-app
+      description: Wayland App
+      icon: wayland
+      ifenvset: WAYLAND_DISPLAY
+    
+    docker_compose:
+      binary: docker-compose
+      description: Docker Compose
+      icon: docker
+      ifexist: docker-compose
+    ```
+  </Accordion>
+  
+  <Accordion title="Path expansion and environment variables">
+    ```yaml
+    custom_script:
+      binary: ${HOME}/bin/my-script
+      args: ["${XDG_DATA_HOME}/files", "~/Documents"]
+      icon: ~/icons/custom.png
+      description: My Custom Script
+      ifexist: ~/bin/my-script
+    ```
+  </Accordion>
+  
+  <Accordion title="System actions">
+    ```yaml
+    lock_screen:
+      binary: swaylock
+      args: [-f, -c, "000000"]
+      icon: system-lock-screen
+      description: Lock Screen
+    
+    suspend:
+      binary: systemctl
+      args: [suspend]
+      icon: system-suspend
+      description: Suspend to RAM
+    
+    poweroff:
+      binary: systemctl
+      args: [poweroff]
+      icon: system-shutdown
+      description: Power Off
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Useful Commands
+
+<CodeGroup>
+```bash Print command without executing
+raffi -p
+```
+
+```bash Use custom config file
+raffi -c ~/.config/raffi/work.yaml
+```
+
+```bash Refresh icon cache
+raffi -r
+```
+
+```bash Disable icons (faster startup)
+raffi -I
+```
+
+```bash Native mode with initial query
+raffi -u native -i "firefox"
+```
+
+```bash Set default script interpreter
+raffi --default-script-shell /bin/zsh
+```
+</CodeGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Configuration Overview" icon="gear" href="/configuration/overview">
+    Explore all configuration options and advanced features
+  </Card>
+  
+  <Card title="Script Filters" icon="filter" href="/features/script-filters">
+    Extend Raffi with dynamic external commands
+  </Card>
+  
+  <Card title="Theme Customization" icon="palette" href="/features/themes">
+    Customize the native interface colors and appearance
+  </Card>
+  
+  <Card title="CLI Options" icon="terminal" href="/reference/cli-options">
+    Browse all command-line flags and options
+  </Card>
+</CardGroup>
