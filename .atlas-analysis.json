@@ -1,0 +1,93 @@
+{
+  "projectType": "cli-tool",
+  "projectName": "Raffi",
+  "projectDescription": "A YAML-based application launcher for Wayland with fuzzel integration and native GUI support",
+  "theme": "palm",
+  "primaryColor": "#848c8c",
+  "lightColor": "#5c3e88",
+  "darkColor": "#352a37",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "installation",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Configuration",
+            "pages": [
+              "configuration/overview",
+              "configuration/general-settings",
+              "configuration/entries",
+              "configuration/icons",
+              "configuration/scripts",
+              "configuration/conditions"
+            ]
+          },
+          {
+            "group": "Features",
+            "pages": [
+              "features/ui-modes",
+              "features/calculator",
+              "features/currency-converter",
+              "features/file-browser",
+              "features/script-filters",
+              "features/web-search",
+              "features/text-snippets",
+              "features/themes"
+            ]
+          },
+          {
+            "group": "Integration",
+            "pages": [
+              "integration/sway",
+              "integration/hyprland",
+              "integration/fuzzel"
+            ]
+          },
+          {
+            "group": "Reference",
+            "pages": [
+              "reference/cli-options",
+              "reference/yaml-schema",
+              "reference/addon-configuration"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "YAML-based configuration for application launcher entries",
+    "Dual UI modes: fuzzel integration and native iced-based GUI",
+    "Built-in calculator with mathematical functions",
+    "Currency converter with real-time exchange rates",
+    "Interactive file browser with fuzzy filtering",
+    "Script filters compatible with Alfred JSON format",
+    "Web search shortcuts with custom keywords",
+    "Text snippets system with multiple sources",
+    "Conditional entry display based on environment",
+    "Icon caching and automatic discovery",
+    "Path expansion for tilde and environment variables",
+    "Dark and light theme support with custom color overrides",
+    "Window manager integration for Sway and Hyprland"
+  ],
+  "publicApiSurface": [
+    "raffi - Main command to launch the application",
+    "raffi -p / --print-only - Print command without executing",
+    "raffi -c / --configfile - Specify custom config file",
+    "raffi -r / --refresh-cache - Refresh icon cache",
+    "raffi -I / --disable-icons - Disable icon display",
+    "raffi -u / --ui-type - Select UI type (fuzzel or native)",
+    "raffi -i / --initial-query - Set initial search query",
+    "raffi -t / --theme - Select theme (dark or light)",
+    "raffi --default-script-shell - Set default script interpreter",
+    "~/.config/raffi/raffi.yaml - Main configuration file"
+  ]
+}
